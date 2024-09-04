@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "1F764AF0-E76A-4482-AB81-CE6830D401C1",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:DigioChallenge.xcodeproj",
+      "identifier" : "2CD0EB273FF51D7F46F1DB15",
+      "name" : "DigioChallengeTests"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DigioChallenge.xcodeproj",
+        "identifier" : "2CD0EB273FF51D7F46F1DB15",
+        "name" : "DigioChallengeTests"
+      }
+    }
+  ],
+  "version" : 1
+}

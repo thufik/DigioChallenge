@@ -1,0 +1,17 @@
+require 'spaceship'
+Spaceship::ConnectAPI::App.const_set('ESSENTIAL_INCLUDES', 'appStoreVersions')
+
+default_platform(:ios)
+
+platform :ios do
+    desc 'Send to TestFlight'
+    lane :pushCredentialToTestflight do
+	api_key = app_store_connect_api_key(key_id: '', issuer_id:'', key_content: '')
+
+	match(type: 'appstore', app_identifier: 'br.com.digio.challenge.dev', git_branch: 'master', team_id: '', readonly: false)
+
+	gym(scheme: 'DigioChallenge', export_method: 'app-store', include_symbols: false, include_bitcode: false)
+  	
+	upload_to_testflight(api_key: api_key, team_id: '', skip_submission: true, skip_waiting_for_build_processing: true)
+    end
+end

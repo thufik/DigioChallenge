@@ -1,0 +1,5 @@
+git_url("git@github.com:thufik/iOSCerts.git")
+
+storage_mode("git")
+
+username("fellipe_thufik@hotmail.com")

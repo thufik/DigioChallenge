@@ -1,0 +1,120 @@
+name: DigioChallenge
+configs:
+  Debug: debug
+  Release: release
+packages:
+  RAMRequestManager:
+    url: git@github.com:thufik/RAMRequestManager.git
+    branch: master
+  Lottie:
+    url: https://github.com/airbnb/lottie-ios.git
+    from: 3.1.8
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing.git
+    from: 1.9.0
+fileGroups:
+  - DigioChallenge
+  - DigioChallengeTests
+targets:
+  DigioChallenge:
+    type: application
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: DigioChallenge
+    info:
+      path: DigioChallenge/Resources/DigioChallenge-Info.plist
+      properties:
+        BaseURL: $(BaseURL)
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitLandscape
+        UIBackgroundModes:
+          - fetch
+          - remote-notification
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersion: $(MARKETING_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: "Default Configuration"
+                UISceneDelegateClassName: "$(PRODUCT_MODULE_NAME).SceneDelegate"
+        UIApplicationSupportsIndirectInputEvents: true
+        UIUserInterfaceStyle: Light
+        UILaunchStoryboardName: LaunchScreen
+    configFiles:
+      Debug: DigioChallenge/Resources/DigioChallenge-Develop.xcconfig
+      Release: DigioChallenge/Resources/DigioChallenge-Release.xcconfig
+    settings:
+      base:
+        PRODUCT_NAME: DigioChallenge
+        PRODUCT_BUNDLE_IDENTIFIER: br.com.digio.challenge.dev
+        DEVELOPMENT_TEAM: 9THUCJMT4V
+        CODE_SIGN_IDENTITY: iPhone Developer
+        CODE_SIGN_STYLE: Manual
+        TARGETED_DEVICE_FAMILY: 1
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: false
+        ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: true
+        ONLY_ACTIVE_ARCH: true
+        INFOPLIST_FILE: DigioChallenge/Resources/DigioChallenge-Info.plist
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+    dependencies:
+      - package: RAMRequestManager
+      - package: Lottie
+
+  DigioChallengeTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources:
+      - DigioChallengeTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SUPPORTS_MACCATALYST: false
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: false
+        TARGETED_DEVICE_FAMILY: 1
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/DigioChallenge.app/DigioChallenge"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        ENABLE_TESTABILITY: YES
+    dependencies:
+      - target: DigioChallenge
+      - package: SnapshotTesting
+
+schemes:
+  DigioChallenge:
+    build:
+      targets:
+        DigioChallenge: all
+    test:
+      targets:
+        - target: DigioChallengeTests
+          parallelizable: true
+          randomExecutionOrder: true
+      testPlans:
+        - DigioChallengeTests/DigioChallengeTestPlan.xctestplan
+    run:
+      config: Debug
+    archive:
+      config: Release
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+  DigioChallengeTests:
+    build:
+      targets:
+        DigioChallengeTests: [run, archive]
+    test:
+        gatherCoverageData: true
+        targets:
+          - name: DigioChallengeTests
+            parallelizable: false
+            randomExecutionOrder: true
